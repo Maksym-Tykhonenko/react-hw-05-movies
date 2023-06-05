@@ -1,3 +1,6 @@
+import {Text} from './Reviews.styled'
+
+
 import { useParams } from "react-router-dom";
 
 const Reviews = () => {
@@ -7,7 +10,7 @@ const Reviews = () => {
 
     return (
         <>
-            <p>Pевью фільма: {movieId }</p>
+            <Text>Pевью фільма: {movieId }</Text>
         </>
     )
 };

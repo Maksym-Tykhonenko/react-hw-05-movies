@@ -1,9 +1,11 @@
-import { useEffect } from "react";
-import { useParams, NavLink, Outlet } from "react-router-dom";
+
+import { useEffect, useRef, Suspense } from "react";
+import { useParams, useLocation, NavLink, Link, Outlet } from "react-router-dom";
+
 import styled from 'styled-components';
 
 const StyledLink = styled(NavLink)`
-color: black;
+color: antiquewhite;
 
 &.active{
     color: orangered;
@@ -15,7 +17,10 @@ const MovieDetails = () => {
     const {movieId} = useParams();
     //console.log(movieId);
 
-
+    const location = useLocation()
+    //console.log(location);
+    const backLinkLocationRef = useRef(location.state?.from ?? '/list');
+    //console.log(backLinkLocationRef);
 
     useEffect(() => {
         //запрос за одним фільмом
@@ -23,7 +28,9 @@ const MovieDetails = () => {
 
     return (
         <>
-            <button type="button">back</button>
+            <Link to={backLinkLocationRef.current}>
+                Back to colection
+            </Link>
 
             <p>Details film {movieId}</p>
 
@@ -31,9 +38,11 @@ const MovieDetails = () => {
                 <StyledLink to='cast'><li>Cast</li></StyledLink>
                 <StyledLink to='reviews'><li>Reviews</li></StyledLink>
             </ul>
-            <Outlet/>
+            <Suspense fallback={<div>Loading...</div>}>
+                <Outlet />
+            </Suspense>
         </>
-    )
+    );
 };
 
 export default MovieDetails;

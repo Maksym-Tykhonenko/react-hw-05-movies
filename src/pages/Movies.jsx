@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
 
 
 const Movies = () => {
@@ -29,18 +29,22 @@ const Movies = () => {
         'Film-name-11',
         'Film-name-12',
     ]);
-//, setMovies
     
+
     const [searchParams, setSearchParams] = useSearchParams();
 
     const query = searchParams.get('query') ?? '';
-    console.log(query);
+    //console.log(query);
+
+
+    const location = useLocation();
+    //console.log(location)
 
    
-
     useEffect(() => {
         //запрос за колекцією фільмів
     }, []);
+
 
     const updQueryString = (e) => {
 
@@ -53,13 +57,16 @@ const Movies = () => {
 
     return (
         <>
-            <input 
+            <input
                 value={query}
                 type='text'
                 onChange={updQueryString} />
             <ul>
                 {visibleFilms.map(movie => {
-                    return <Link to={`${movie}`} key={movie}>
+                    return <Link
+                        to={`${movie}`}
+                        key={movie}
+                        state={{ from: location }}>
                         <li>{movie}</li>
                     </Link>
                 })}
